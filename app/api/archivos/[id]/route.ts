@@ -19,7 +19,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   if (!fs.existsSync(filePath)) return NextResponse.json({ error: "Archivo no encontrado" }, { status: 404 });
   const buffer = fs.readFileSync(filePath);
   return new NextResponse(buffer, {
-    headers: { "Content-Type": archivo.tipo, "Content-Disposition": `attachment; filename="${archivo.nombre_original}"` },
+    headers: { "Content-Type": archivo.tipo, "Content-Disposition": `${_req.nextUrl.searchParams.get("inline") ? "inline" : "attachment"}; filename="${archivo.nombre_original}"` },
   });
 }
 
