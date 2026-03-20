@@ -20,6 +20,8 @@ const ICONS: Record<string, string> = {
   rrhh: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm14 0a4 4 0 1 0-4 4 4 4 0 0 0 4-4zm-4 8h6",
   "medicina-laboral": "M22 12h-4l-3 9L9 3l-3 9H2",
   liquidaciones: "M9 7H6a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-3M13 3h6m0 0v6m0-6L9 13",
+  comunicacion: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",
+  desarrollo: "M16 18l6-6-6-6M8 6l-6 6 6 6",
 };
 
 type Vista = { tipo: "procedimientos" } | { tipo: "instructivos"; slug: string };
