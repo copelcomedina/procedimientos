@@ -6,6 +6,7 @@ import ProcedimientoModal from "./ProcedimientoModal";
 import ProcedimientoDetalle from "./ProcedimientoDetalle";
 import InstructivosView from "./InstructivosView";
 import Image from "next/image";
+import UsuariosView from "./UsuariosView";
 interface Sector {
   id: number; nombre: string; slug: string; color: string; descripcion: string;
 }
@@ -24,8 +25,7 @@ const ICONS: Record<string, string> = {
   desarrollo: "M16 18l6-6-6-6M8 6l-6 6 6 6",
 };
 
-type Vista = { tipo: "procedimientos" } | { tipo: "instructivos"; slug: string };
-
+type Vista = { tipo: "procedimientos" } | { tipo: "instructivos"; slug: string } | { tipo: "usuarios" };
 export default function Dashboard({ user }: { user: UserPayload }) {
   const [sectores, setSectores] = useState<Sector[]>([]);
   const [procedimientos, setProcedimientos] = useState<Procedimiento[]>([]);
@@ -137,6 +137,18 @@ export default function Dashboard({ user }: { user: UserPayload }) {
     </span>
   </button>
 ))}
+{user.rol === "admin_global" && (
+  <>
+    <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
+    <div style={{ fontSize: 11, fontWeight: 600, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase", padding: "0 8px", marginBottom: 8 }}>
+      Administración
+    </div>
+    <button onClick={() => setVista({ tipo: "usuarios" })} style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: vista.tipo === "usuarios" ? "#eff6ff" : "transparent", color: vista.tipo === "usuarios" ? "#2563eb" : "#374151", transition: "all 0.15s" }}>
+      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Usuarios
+    </button>
+  </>
+)}
           <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
 
           <div style={{ fontSize: 11, fontWeight: 600, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase", padding: "0 8px", marginBottom: 8 }}>
@@ -180,11 +192,13 @@ export default function Dashboard({ user }: { user: UserPayload }) {
         </div>
       </aside>
 
-      <div style={{ marginLeft: sidebarW, flex: 1, display: "flex" }}>
-        {vista.tipo === "instructivos" ? (
-          <InstructivosView carpetaSlug={vista.slug} />
-        ) : (
-          <main style={{ flex: 1, padding: "32px 32px" }}>
+    <div style={{ marginLeft: sidebarW, flex: 1, display: "flex" }}>
+  {vista.tipo === "usuarios" ? (
+    <UsuariosView user={user} />
+  ) : vista.tipo === "instructivos" ? (
+    <InstructivosView carpetaSlug={vista.slug} />
+  ) : (
+    <main style={{ flex: 1, padding: "32px 32px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
               <div>
                 <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>
