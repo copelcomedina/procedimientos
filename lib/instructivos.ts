@@ -8,7 +8,17 @@ export interface CarpetaInstructivos {
   slug: string;
   archivos: InstructivoPDF[];
 }
-
+export const RECURSOS: CarpetaInstructivos[] = [
+  {
+    nombre: "Políticas de Comunicación",
+    slug: "politicas-comunicacion",
+    archivos: [
+      { nombre: "IG 12-01 Redacción de correos electrónicos institucionales", archivo: "IG 12-01 Redaccion de correos electronicos institucionales.pdf" },
+      { nombre: "PG 12 Gestión de la Comunicación", archivo: "PG 12 Gestion de la Comunicacion.pdf" },
+      { nombre: "Política de Comunicación Integral", archivo: "Politica de Comunicacion Integral.pdf" },
+    ],
+  },
+];
 export const INSTRUCTIVOS: CarpetaInstructivos[] = [
   {
     nombre: "Accesos",

@@ -1,15 +1,15 @@
 "use client";
 import { useState } from "react";
-import { INSTRUCTIVOS, CarpetaInstructivos } from "@/lib/instructivos";
+import { INSTRUCTIVOS, RECURSOS } from "@/lib/instructivos";
 
 export default function InstructivosView({ carpetaSlug }: { carpetaSlug: string }) {
   const [buscar, setBuscar] = useState("");
 
-  const carpeta = INSTRUCTIVOS.find(c => c.slug === carpetaSlug);
+  const carpeta = [...INSTRUCTIVOS, ...RECURSOS].find(c => c.slug === carpetaSlug);
+  const esRecurso = RECURSOS.some(c => c.slug === carpetaSlug);
   const archivos = carpeta
     ? carpeta.archivos.filter(a => a.nombre.toLowerCase().includes(buscar.toLowerCase()))
     : [];
-
   const totalCarpeta = carpeta?.archivos.length ?? 0;
 
   return (
@@ -18,7 +18,7 @@ export default function InstructivosView({ carpetaSlug }: { carpetaSlug: string 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 28 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>
-            Instructivos INWeb — {carpeta?.nombre}
+            {esRecurso ? carpeta?.nombre : `Instructivos INWeb — ${carpeta?.nombre}`}
           </h1>
           <p style={{ color: "#6b7280", fontSize: 13, marginTop: 2 }}>
             {totalCarpeta} instructivo{totalCarpeta !== 1 ? "s" : ""}
@@ -60,7 +60,7 @@ export default function InstructivosView({ carpetaSlug }: { carpetaSlug: string 
           {archivos.map((archivo, i) => (
             <a
               key={archivo.archivo}
-              href={`/procedimientos/instructivos/${carpeta!.nombre}/${encodeURIComponent(archivo.archivo)}`}
+href={`/procedimientos/${esRecurso ? "politicas_de_comunicacion" : `instructivos/${carpeta!.nombre}`}/${encodeURIComponent(archivo.archivo)}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{

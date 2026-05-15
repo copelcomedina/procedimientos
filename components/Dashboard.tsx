@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import { UserPayload } from "@/lib/auth";
-import { INSTRUCTIVOS } from "@/lib/instructivos";
+import { INSTRUCTIVOS, RECURSOS } from "@/lib/instructivos";
 import ProcedimientoModal from "./ProcedimientoModal";
 import ProcedimientoDetalle from "./ProcedimientoDetalle";
 import InstructivosView from "./InstructivosView";
-
+import Image from "next/image";
 interface Sector {
   id: number; nombre: string; slug: string; color: string; descripcion: string;
 }
@@ -84,23 +84,24 @@ export default function Dashboard({ user }: { user: UserPayload }) {
         borderRight: "1px solid #e5e7eb", display: "flex", flexDirection: "column",
         position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 10,
       }}>
-        <div style={{ padding: "24px 20px 20px", borderBottom: "1px solid #f3f4f6" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: "linear-gradient(135deg, #2563eb, #1d4ed8)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-            </div>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", lineHeight: 1.2 }}>COPELCO</div>
-              <div style={{ fontSize: 11, color: "#9ca3af" }}>Procedimientos</div>
-            </div>
-          </div>
-        </div>
+      <div style={{ padding: "24px 20px 20px", borderBottom: "1px solid #f3f4f6" }}>
+ <div style={{ padding: "24px 20px 20px", borderBottom: "1px solid #f3f4f6" }}>
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+    <Image
+      src="/procedimientos/logo.png"
+      alt="COPELCO"
+      width={140}
+      height={140}
+      style={{ objectFit: "contain" }}
+    />
+    <div style={{ fontSize: 14, color: "#9ca3af" }}>Procedimientos</div>
+  </div>
+</div>
+</div>
 
         <nav style={{ padding: "16px 12px", flex: 1, overflowY: "auto" }}>
           <div style={{ fontSize: 11, fontWeight: 600, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase", padding: "0 8px", marginBottom: 8 }}>
-            Procedimientos
+            Sectores
           </div>
 
           <button onClick={() => irAProcedimientos(null)} style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: esProcedimientos && sectorActivo === null ? "#eff6ff" : "transparent", color: esProcedimientos && sectorActivo === null ? "#2563eb" : "#374151", transition: "all 0.15s" }}>
@@ -114,7 +115,28 @@ export default function Dashboard({ user }: { user: UserPayload }) {
               {s.nombre}
             </button>
           ))}
+<div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
 
+<div style={{ fontSize: 11, fontWeight: 600, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase", padding: "0 8px", marginBottom: 8 }}>
+  Recursos
+</div>
+
+<a href="/procedimientos/Procedimiento_modelo.doc" download style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: "transparent", color: "#374151", transition: "all 0.15s", textDecoration: "none" }}
+  onMouseEnter={e => (e.currentTarget.style.background = "#f9fafb")}
+  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+>
+  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+  Procedimiento modelo
+</a>
+{RECURSOS.map(c => (
+  <button key={c.slug} onClick={() => irAInstructivos(c.slug)} style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: instructivoActivo === c.slug ? "#eff6ff" : "transparent", color: instructivoActivo === c.slug ? "#2563eb" : "#374151", transition: "all 0.15s" }}>
+    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    {c.nombre}
+    <span style={{ marginLeft: "auto", fontSize: 10, fontWeight: 600, background: instructivoActivo === c.slug ? "#dbeafe" : "#f3f4f6", color: instructivoActivo === c.slug ? "#2563eb" : "#9ca3af", borderRadius: 10, padding: "1px 6px" }}>
+      {c.archivos.length}
+    </span>
+  </button>
+))}
           <div style={{ height: 1, background: "#f3f4f6", margin: "14px 0" }} />
 
           <div style={{ fontSize: 11, fontWeight: 600, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase", padding: "0 8px", marginBottom: 8 }}>
