@@ -22,8 +22,7 @@ export async function POST(req: NextRequest) {
   const db = getDb();
   try {
     const result = await db.execute({ sql: "INSERT INTO users (nombre, email, password, rol, sector) VALUES (?, ?, ?, ?, ?)", args: [nombre, email, hash, rol || "empleado", sector || null] });
-    return NextResponse.json({ id: result.lastInsertRowid, nombre, email, rol }, { status: 201 });
-  } catch {
+return NextResponse.json({ id: Number(result.lastInsertRowid), nombre, email, rol }, { status: 201 });  } catch {
     return NextResponse.json({ error: "Email ya existe" }, { status: 409 });
   }
 }
