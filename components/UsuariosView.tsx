@@ -27,22 +27,23 @@ export default function UsuariosView({ user }: { user: UserPayload }) {
 
   useEffect(() => { cargar(); }, []);
 
-  async function handleCrear() {
-    setError("");
-    if (!form.nombre || !form.email || !form.password) { setError("Completá todos los campos obligatorios"); return; }
-    setGuardando(true);
-    const res = await fetch("/procedimientos/api/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    setGuardando(false);
-    if (!res.ok) { setError(data.error || "Error al crear usuario"); return; }
-    setForm({ nombre: "", email: "", password: "", rol: "empleado", sector: "" });
-    setShowForm(false);
-    cargar();
-  }
+async function handleCrear() {
+  setError("");
+  if (!form.nombre || !form.email || !form.password) { setError("Completá todos los campos obligatorios"); return; }
+  if (guardando) return;
+  setGuardando(true);
+  const res = await fetch("/procedimientos/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(form),
+  });
+  const data = await res.json();
+  setGuardando(false);
+  if (!res.ok) { setError(data.error || "Error al crear usuario"); return; }
+  setForm({ nombre: "", email: "", password: "", rol: "empleado", sector: "" });
+  setShowForm(false);
+  cargar();
+}
 
   async function handleEliminar(id: number, nombre: string) {
     if (!confirm(`¿Eliminár a ${nombre}?`)) return;
@@ -98,9 +99,9 @@ export default function UsuariosView({ user }: { user: UserPayload }) {
           </div>
           {error && <p style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>{error}</p>}
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={handleCrear} disabled={guardando} style={{ padding: "9px 20px", background: "#2563eb", color: "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>
-              {guardando ? "Guardando..." : "Crear"}
-            </button>
+            <button onClick={handleCrear} disabled={guardando} style={{ padding: "9px 20px", background: guardando ? "#93c5fd" : "#2563eb", color: "white", border: "none", borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: guardando ? "not-allowed" : "pointer", fontFamily: "inherit" }}>
+  {guardando ? "Guardando..." : "Crear"}
+</button>
             <button onClick={() => { setShowForm(false); setError(""); }} style={{ padding: "9px 20px", background: "transparent", color: "#6b7280", border: "1.5px solid #e5e7eb", borderRadius: 8, fontSize: 13, cursor: "pointer", fontFamily: "inherit" }}>
               Cancelar
             </button>
