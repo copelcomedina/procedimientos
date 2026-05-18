@@ -41,7 +41,7 @@ router.push("/dashboard");
   <img
     src="/procedimientos/logo.png"
     alt="COPELCO"
-    style={{ width: 180, height: "auto", objectFit: "contain", marginBottom: 16, display: "block", margin: "0 auto 16px" }}
+    style={{ width: 200, height: "auto", objectFit: "contain", marginBottom: 16, display: "block", margin: "0 auto 16px" }}
   />
   <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos e instructivos Internos RRHH</p>
 </div>
