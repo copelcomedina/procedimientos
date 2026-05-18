@@ -37,13 +37,12 @@ router.push("/dashboard");
     }}>
       <div style={{ width: "100%", maxWidth: 420, padding: "0 24px" }}>
         {/* Logo / Brand */}
-      <div style={{ textAlign: "center", marginBottom: 40 }}>
+ <div style={{ textAlign: "center", marginBottom: 40 }}>
   <img
     src="/procedimientos/logo.png"
     alt="COPELCO"
-    style={{ width: 80, height: 80, objectFit: "contain", marginBottom: 16 }}
+    style={{ width: 180, height: "auto", objectFit: "contain", marginBottom: 16, display: "block", margin: "0 auto 16px" }}
   />
-  <h1 style={{ fontSize: 24, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>COPELCO</h1>
   <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos e instructivos Internos RRHH</p>
 </div>
 
