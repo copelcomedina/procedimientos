@@ -37,20 +37,15 @@ router.push("/dashboard");
     }}>
       <div style={{ width: "100%", maxWidth: 420, padding: "0 24px" }}>
         {/* Logo / Brand */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{
-            width: 56, height: 56, borderRadius: 16,
-            background: "linear-gradient(135deg, #2563eb, #1d4ed8)",
-            display: "inline-flex", alignItems: "center", justifyContent: "center",
-            marginBottom: 16, boxShadow: "0 8px 24px rgba(37,99,235,0.25)",
-          }}>
-            <svg width="28" height="28" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-          </div>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>COPELCO</h1>
-          <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos e instructivos Internos</p>
-        </div>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+  <img
+    src="/procedimientos/logo.png"
+    alt="COPELCO"
+    style={{ width: 80, height: 80, objectFit: "contain", marginBottom: 16 }}
+  />
+  <h1 style={{ fontSize: 24, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>COPELCO</h1>
+  <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos e instructivos Internos RRHH</p>
+</div>
 
         {/* Card */}
         <div style={{
