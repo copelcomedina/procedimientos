@@ -14,6 +14,10 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     args: [id],
   });
   if (!result.rows[0]) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
+  const proc = result.rows[0] as any;
+  if (session.rol !== "admin_global" && proc.sector_slug !== session.sector) {
+    return NextResponse.json({ error: "Sin permisos" }, { status: 403 });
+  }
   const archivos = await db.execute({ sql: "SELECT * FROM archivos WHERE procedimiento_id = ?", args: [id] });
   const links = await db.execute({ sql: "SELECT * FROM links WHERE procedimiento_id = ?", args: [id] });
   return NextResponse.json({ ...result.rows[0], archivos: archivos.rows, links: links.rows });
@@ -22,10 +26,15 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getSession();
   if (!session || session.rol === "empleado") return NextResponse.json({ error: "Sin permisos" }, { status: 403 });
-  const { id } = await params;
+ const { id } = await params;
   const { titulo, descripcion, links } = await req.json();
   await initDb();
   const db = getDb();
+  if (session.rol === "admin_sector") {
+    const proc = await db.execute({ sql: "SELECT s.slug FROM procedimientos p JOIN sectores s ON p.sector_id = s.id WHERE p.id = ?", args: [id] });
+    if ((proc.rows[0] as any)?.slug !== session.sector)
+      return NextResponse.json({ error: "Sin permisos" }, { status: 403 });
+  }
   await db.execute({ sql: "UPDATE procedimientos SET titulo = ?, descripcion = ?, updated_at = datetime('now') WHERE id = ?", args: [titulo, descripcion, id] });
   if (links) {
     await db.execute({ sql: "DELETE FROM links WHERE procedimiento_id = ?", args: [id] });
@@ -43,6 +52,11 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const { id } = await params;
   await initDb();
   const db = getDb();
+  if (session.rol === "admin_sector") {
+    const proc = await db.execute({ sql: "SELECT s.slug FROM procedimientos p JOIN sectores s ON p.sector_id = s.id WHERE p.id = ?", args: [id] });
+    if ((proc.rows[0] as any)?.slug !== session.sector)
+      return NextResponse.json({ error: "Sin permisos" }, { status: 403 });
+  }
   await db.execute({ sql: "UPDATE procedimientos SET estado = 'inactivo' WHERE id = ?", args: [id] });
   return NextResponse.json({ ok: true });
 }

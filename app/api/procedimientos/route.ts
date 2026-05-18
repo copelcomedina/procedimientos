@@ -21,8 +21,9 @@ export async function GET(req: NextRequest) {
     WHERE p.estado = 'activo'`;
   const args: any[] = [];
 
-  if (sector) { sql += " AND s.slug = ?"; args.push(sector); }
+ if (sector) { sql += " AND s.slug = ?"; args.push(sector); }
   if (buscar) { sql += " AND (p.titulo LIKE ? OR p.descripcion LIKE ?)"; args.push(`%${buscar}%`, `%${buscar}%`); }
+  if (session.rol !== "admin_global") { sql += " AND s.slug = ?"; args.push(session.sector); }
   sql += " ORDER BY p.updated_at DESC";
 
   const result = await db.execute({ sql, args });
