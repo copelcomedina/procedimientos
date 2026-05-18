@@ -94,7 +94,7 @@ export default function Dashboard({ user }: { user: UserPayload }) {
       height={140}
       style={{ objectFit: "contain" }}
     />
-    <div style={{ fontSize: 14, color: "#9ca3af" }}>Procedimientos</div>
+    <div style={{ fontSize: 14, color: "#9ca3af" }}>Procedimientos e instructivos</div>
   </div>
 </div>
 </div>
@@ -109,8 +109,7 @@ export default function Dashboard({ user }: { user: UserPayload }) {
             Todos los sectores
           </button>
 
-          {sectores.map(s => (
-            <button key={s.id} onClick={() => irAProcedimientos(s.slug)} style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: esProcedimientos && sectorActivo === s.slug ? `${s.color}15` : "transparent", color: esProcedimientos && sectorActivo === s.slug ? s.color : "#374151", transition: "all 0.15s" }}>
+{sectores.filter(s => user.rol === "admin_global" || s.slug === user.sector).map(s => (            <button key={s.id} onClick={() => irAProcedimientos(s.slug)} style={{ width: "100%", textAlign: "left", padding: "9px 10px", borderRadius: 8, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 500, background: esProcedimientos && sectorActivo === s.slug ? `${s.color}15` : "transparent", color: esProcedimientos && sectorActivo === s.slug ? s.color : "#374151", transition: "all 0.15s" }}>
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d={ICONS[s.slug] || "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"}/></svg>
               {s.nombre}
             </button>

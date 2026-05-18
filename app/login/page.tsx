@@ -49,7 +49,7 @@ router.push("/dashboard");
             </svg>
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 700, color: "#111827", letterSpacing: "-0.5px" }}>COPELCO</h1>
-          <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos Internos</p>
+          <p style={{ color: "#6b7280", marginTop: 4, fontSize: 14 }}>Plataforma de Procedimientos e instructivos Internos</p>
         </div>
 
         {/* Card */}
